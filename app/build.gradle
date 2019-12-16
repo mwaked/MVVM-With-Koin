@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+
+    compileSdkVersion compile_sdk
+
+    defaultConfig {
+        applicationId application_id
+        minSdkVersion min_sdk
+        targetSdkVersion target_sdk
+        versionCode version_code
+        versionName version_name
+        multiDexEnabled true
+        setArchivesBaseName(application_name + new Date().format("dd.MMM.YYY") + "_" + versionName + "_" + versionCode)
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        defaultSign {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+
+        release {
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.defaultSign
+            buildConfigField("String", "API_BASE_URL", "\"${relase_api_url}\"")
+        }
+
+        debug {
+            debuggable true
+            buildConfigField("String", "API_BASE_URL", "\"${development_api_url}\"")
+        }
+
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.appcompat:appcompat:$appcompat"
+    implementation "androidx.core:core-ktx:$ktx"
+    implementation "androidx.legacy:legacy-support-v4:$android_support"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutines"
+    implementation "com.google.android.material:material:$android_material"
+    implementation "androidx.annotation:annotation:$android_annotation"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutines"
+
+    // Constraint Layout
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayout"
+    implementation "androidx.constraintlayout:constraintlayout-solver:$constraintLayout"
+
+    // Image Processing - Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    // Fast Adapter
+    implementation(
+            "com.mikepenz:fastadapter:$fast_adapter_version",
+            "com.mikepenz:materialize:$materialize_version",
+            "com.mikepenz:fastadapter-extensions-paged:$fast_adapter_version",
+            "com.mikepenz:fastadapter-extensions-swipe:$fast_adapter_version",
+            "com.mikepenz:fastadapter-extensions-utils:$fast_adapter_version"
+    )
+
+    // Localization Activity
+    implementation "com.akexorcist:localizationactivity:$localizationactivity"
+
+    //Koin DI
+    implementation "org.koin:koin-android:$koin"
+    implementation "org.koin:koin-androidx-viewmodel:$koin"
+    testImplementation "org.koin:koin-test:$koin"
+
+    // Database - Room
+    implementation "androidx.room:room-runtime:$room"
+    annotationProcessor "androidx.room:room-compiler:$room"
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:$timber"
+
+    //Networking
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.google.code.gson:gson:$gson"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+
+    //Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigation"
+
+    //LifeCycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycle"
+
+    // Multidex
+    implementation "androidx.multidex:multidex:$multidex"
+
+    // Secure pref
+    implementation "com.github.prashantsolanki3:Secure-Pref-Manager:$secure_prefs_version"
+
+    // Testing
+    testImplementation "androidx.arch.core:core-testing:$archLifecycle"
+    androidTestImplementation "io.mockk:mockk-android:$mockVersion"
+    testImplementation "io.mockk:mockk:$mockVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+
+}

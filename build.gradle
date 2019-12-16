@@ -1,0 +1,34 @@
+buildscript {
+
+    apply from: './versions.gradle'
+
+    repositories {
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
+        jcenter()
+        google()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$build_gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$navigation"
+    }
+
+}
+
+allprojects {
+    repositories {
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
+        jcenter()
+        google()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

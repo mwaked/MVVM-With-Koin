@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- App Theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/bg_window</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="android:font" tools:ignore="NewApi">@font/regular</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Fonts -->
+    <style name="bold">
+        <item name="android:fontFamily">@font/bold</item>
+    </style>
+    <style name="regular">
+        <item name="android:fontFamily">@font/regular</item>
+    </style>
+
+    <!-- To make BottomSheetDialog background transparent -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Dialog -->
+    <style name="DialogAnimationPopup">
+        <item name="android:windowEnterAnimation">@anim/pop_up</item>
+    </style>
+
+</resources>
