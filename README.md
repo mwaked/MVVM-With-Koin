@@ -1,2 +1,2 @@
 # Enjoyer
-MVVM, Retrofit, Coroutines and LiveData
+MVVM, Retrofit, Coroutines, Koin and LiveData
