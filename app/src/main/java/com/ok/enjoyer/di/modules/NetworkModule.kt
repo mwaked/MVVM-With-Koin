@@ -17,16 +17,16 @@ object NetworkModule {
 
         single { get<Retrofit>().create(ApiRepository::class.java) }
 
-        single { createRetrofitInstance() }
         single { createOkHttpClient() }
+        single { createRetrofitInstance(get()) }
 
         single { NetworkState(androidApplication()) }
     }
 
-    private fun createRetrofitInstance(): Retrofit {
+    private fun createRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
-            .client(createOkHttpClient())
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
