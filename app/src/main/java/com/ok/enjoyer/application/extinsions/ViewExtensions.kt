@@ -193,3 +193,4 @@ fun getResId(resName: String, c: Class<*>): Int {
 fun TextView.changeTextColor(res: Int){
     this.setTextColor(ContextCompat.getColor(context, res))
 }
+
