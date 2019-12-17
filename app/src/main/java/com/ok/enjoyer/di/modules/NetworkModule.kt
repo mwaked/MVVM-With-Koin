@@ -17,14 +17,10 @@ object NetworkModule {
 
         single { get<Retrofit>().create(ApiRepository::class.java) }
 
-        createRetrofitInstance()
-        createOkHttpClient()
+        single { createRetrofitInstance() }
+        single { createOkHttpClient() }
 
-        single {
-            NetworkState(
-                androidApplication()
-            )
-        }
+        single { NetworkState(androidApplication()) }
     }
 
     private fun createRetrofitInstance(): Retrofit {

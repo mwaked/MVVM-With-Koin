@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ok.enjoyer.R
 import com.ok.enjoyer.application.base.mvvm.MainThreadScope
 import com.google.android.material.snackbar.Snackbar
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.ok.enjoyer.application.base.ui.BaseFragment
 import com.ok.enjoyer.application.helpers.ui.LayoutRes
+import com.ok.enjoyer.ui.comments.items.CommentItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_comments.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -21,8 +24,9 @@ class CommentsFragment : BaseFragment() {
     private val uiScope = MainThreadScope()
 
     private val args: CommentsFragmentArgs by navArgs()
-    private val commentsAdapter = CommentsAdapter(emptyList())
 
+    private val itemAdapter = ItemAdapter<CommentItem>()
+    private val fastAdapter = FastAdapter.with(itemAdapter)
 
     override fun bindView(savedInstanceState: Bundle?) {
 
@@ -41,7 +45,7 @@ class CommentsFragment : BaseFragment() {
                 return@Observer
             }
 
-            handleStates(commentState, commentsAdapter)
+            handleStates(commentState)
         })
 
         commentsViewModel.getComments(args.postId)
@@ -52,14 +56,12 @@ class CommentsFragment : BaseFragment() {
         commentsRecyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
-            adapter = commentsAdapter
+            adapter = fastAdapter
         }
     }
 
     private fun handleStates(
-        commentState: CommentsState?,
-        commentsAdapter: CommentsAdapter
-    ) {
+        commentState: CommentsState?) {
         when (commentState) {
             is CommentsState.Loading -> {
                 setUpdateLayoutVisibility(View.VISIBLE)
@@ -74,7 +76,7 @@ class CommentsFragment : BaseFragment() {
             }
             is CommentsState.PostsLoaded -> {
                 setUpdateLayoutVisibility(View.GONE)
-                commentsAdapter.updateComments(commentState.comments)
+                commentState.comments.map { itemAdapter.add(CommentItem().withComment(it)) }
             }
         }
     }

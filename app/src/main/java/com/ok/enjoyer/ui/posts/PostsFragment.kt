@@ -8,20 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ok.enjoyer.R
 import com.ok.enjoyer.application.base.mvvm.MainThreadScope
 import com.google.android.material.snackbar.Snackbar
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.ok.enjoyer.application.base.ui.BaseFragment
 import com.ok.enjoyer.application.helpers.ui.LayoutRes
-import com.ok.enjoyer.data.remote.models.response.PostResponse
+import com.ok.enjoyer.ui.posts.items.PostItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_posts.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 @LayoutRes(R.layout.fragment_posts)
-class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
+class PostsFragment : BaseFragment(){
 
     private val uiScope = MainThreadScope()
     private lateinit var postsViewModel: PostsViewModel
 
-    private val postAdapter = PostAdapter(emptyList(), this)
+    private val itemAdapter = ItemAdapter<PostItem>()
+    private val fastAdapter = FastAdapter.with(itemAdapter)
 
     override fun bindView(savedInstanceState: Bundle?) {
         lifecycle.addObserver(uiScope)
@@ -29,13 +32,22 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
         initAdapter()
 
         initViewModel()
+
     }
 
     private fun initAdapter() {
         postsRecyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
-            adapter = postAdapter
+            adapter = fastAdapter
+        }
+        setAdapterItemClickListener()
+    }
+
+    private fun setAdapterItemClickListener() {
+        fastAdapter.onClickListener = { _, _, item, _ ->
+            findNavController().navigate(PostsFragmentDirections.actionPostsFragmentToCommentsFragment(item.postResponse.id))
+            true
         }
     }
 
@@ -64,7 +76,9 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
             }
             is PostsState.PostsLoaded -> {
                 setUpdateLayoutVisibility(View.GONE)
-                postAdapter.updatePosts(postState.posts)
+
+                postState.posts.map { itemAdapter.add(PostItem().withPost(it)) }
+
             }
         }
     }
@@ -73,10 +87,6 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
         activity!!.updateLayout.apply {
             visibility = value
         }
-    }
-
-    override fun postClicked(post: PostResponse) {
-        findNavController().navigate(PostsFragmentDirections.actionPostsFragmentToCommentsFragment(post.id))
     }
 
     override fun onDestroy() {
