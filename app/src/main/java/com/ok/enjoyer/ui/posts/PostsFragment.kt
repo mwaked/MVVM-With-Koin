@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
 
     private val uiScope = MainThreadScope()
-    private var postsViewModel: PostsViewModel? = null
+    private lateinit var postsViewModel: PostsViewModel
 
     private val postAdapter = PostAdapter(emptyList(), this)
 
@@ -41,7 +41,7 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
 
     private fun initViewModel(){
         postsViewModel = getViewModel()
-        postsViewModel?.postLiveData?.observe(this, Observer { postState ->
+        postsViewModel.postLiveData.observe(this, Observer { postState ->
             if (postState == null) {
                 return@Observer
             }
@@ -49,15 +49,12 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
             handleStates(postState)
         })
 
-        postsViewModel?.refreshPosts()
+        postsViewModel.refreshPosts()
     }
 
     private fun handleStates(postState: PostsState?) {
         when (postState) {
-            is PostsState.Loading -> {
-                setUpdateLayoutVisibility(View.VISIBLE)
-            }
-
+            is PostsState.Loading -> setUpdateLayoutVisibility(View.VISIBLE)
             is PostsState.Error -> {
                 setUpdateLayoutVisibility(View.GONE)
                 context?.let {
@@ -65,7 +62,6 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
                     Snackbar.make(activity!!.rootLayout, message, Snackbar.LENGTH_LONG).show()
                 }
             }
-
             is PostsState.PostsLoaded -> {
                 setUpdateLayoutVisibility(View.GONE)
                 postAdapter.updatePosts(postState.posts)
@@ -80,7 +76,11 @@ class PostsFragment : BaseFragment(), PostAdapter.OnPostClickListener {
     }
 
     override fun postClicked(post: PostResponse) {
-        activity?.toolbar?.setTitle(R.string.comments)
         findNavController().navigate(PostsFragmentDirections.actionPostsFragmentToCommentsFragment(post.id))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        postsViewModel.onCleared()
     }
 }

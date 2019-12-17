@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf = "parent"
             app:layout_constraintTop_toTopOf = "parent"
             app:titleTextColor = "@android:color/white"
-            app:title = "@string/posts"/>
+            app:title = "@string/app_name"/>
 
     <fragment
             android:id = "@+id/navHostFragment"

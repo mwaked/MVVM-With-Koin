@@ -41,5 +41,5 @@ fun Throwable.getApiErrorMessage(context: Context): String {
         is UnknownHostException -> context.getString(R.string.text_no_network_found)
         else -> return response.toString()
     }
-    return context.getString(R.string.text_no_network_found)
+    return this.message.toString()
 }

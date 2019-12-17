@@ -85,4 +85,9 @@ class CommentsFragment : BaseFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        commentsViewModel.onCleared()
+    }
+
 }

@@ -13,7 +13,7 @@ open class CouroutineViewModel(private val uiContext: CoroutineContext) : ViewMo
 
     private val job = SupervisorJob()
 
-    override fun onCleared() {
+    public override fun onCleared() {
         super.onCleared()
         coroutineContext.cancelChildren()
     }
