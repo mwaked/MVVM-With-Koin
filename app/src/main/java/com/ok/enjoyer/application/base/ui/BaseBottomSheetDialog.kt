@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ok.enjoyer.application.extinsions.getLayoutRes
 
-abstract class BaseBottomSheetDialogFragment: BottomSheetDialogFragment() {
+abstract class BaseBottomSheetDialog: BottomSheetDialogFragment() {
 
     lateinit var baseActivity: BaseActivity
 
