@@ -1,3 +1,8 @@
 package com.ok.enjoyer.data.remote.models.response
 
-data class PostResponse(val userId: Int, val id: Int, val title: String, val body: String): Model()
+import com.google.gson.annotations.SerializedName
+
+data class PostResponse(@SerializedName("userId") val userId: Int,
+                        @SerializedName("id") val id: Int,
+                        @SerializedName("title") val title: String,
+                        @SerializedName("body") val body: String): Model()
