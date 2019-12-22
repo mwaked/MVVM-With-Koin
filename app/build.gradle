@@ -68,16 +68,16 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "androidx.core:core-ktx:$ktx"
     implementation "androidx.legacy:legacy-support-v4:$android_support"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
     implementation "com.google.android.material:material:$android_material"
     implementation "androidx.annotation:annotation:$android_annotation"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutines"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"
 
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayout"
@@ -122,8 +122,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation"
 
     //LifeCycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycle"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle"
 
     // Multidex
     implementation "androidx.multidex:multidex:$multidex"
@@ -132,9 +132,9 @@ dependencies {
     implementation "com.github.prashantsolanki3:Secure-Pref-Manager:$secure_prefs_version"
 
     // Testing
-    testImplementation "androidx.arch.core:core-testing:$archLifecycle"
-    androidTestImplementation "io.mockk:mockk-android:$mockVersion"
-    testImplementation "io.mockk:mockk:$mockVersion"
+    testImplementation "androidx.arch.core:core-testing:$arch_lifecycle"
+    androidTestImplementation "io.mockk:mockk-android:$mock_version"
+    testImplementation "io.mockk:mockk:$mock_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
